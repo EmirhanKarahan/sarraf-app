@@ -1,0 +1,11 @@
+//
+//  Config.example.xcconfig
+//  sarraf
+//
+//  Created by Emirhan KARAHAN on 26.07.2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+API_URL=""
