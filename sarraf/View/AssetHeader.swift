@@ -29,12 +29,9 @@ extension AssetHeader {
                         .font(.system(size: 18)
                             .weight(.semibold))
                 }
-                Spacer()
-            }
-            
-            VStack {
-                Text("BTC").font(.system(size: 12))
-                Text(verbatim: .formattedPrice(price: 100000, currencyCode: .usd)).font(.system(size: 18).weight(.semibold))
+                if assetPrice.code != .btc {
+                    Spacer()
+                }
             }
         }.padding().frame(maxWidth: .infinity)
     }

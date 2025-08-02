@@ -6,56 +6,17 @@
 //
 
 import SwiftUI
-
-extension SettingsScreen {
-    enum Theme: String, CaseIterable {
-        case system = "Sistem"
-        case light = "Açık"
-        case dark = "Koyu"
-        
-        var icon: String {
-            switch self {
-            case .system: return "gear"
-            case .light: return "sun.max"
-            case .dark: return "moon"
-            }
-        }
-    }
-    
-}
+import MessageUI
 
 struct SettingsScreen: View {
     @State private var selectedTheme: Theme = .system
+    @State private var showingMailView = false
+    @State private var mailResult: Result<MFMailComposeResult, Error>?
+    @State private var showingPrivacyPolicy = false
+    @State private var showingTermsOfUsage = false
     
     var body: some View {
-        NavigationView {
             List {
-                Section("UYGULAMA AYARLARI") {
-                    Button(action: {
-                        
-                    }) {
-                        HStack {
-                            Image(systemName: "globe")
-                                .foregroundColor(.primary)
-                                .frame(width: 24, height: 24)
-                            
-                            Text("Dil")
-                                .foregroundColor(.primary)
-                            
-                            Spacer()
-                            
-                            HStack(spacing: 8) {
-                                Text("🇹🇷")
-                                    .font(.system(size: 16))
-                                
-                                Text("TR")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                        
-                    }
-                    
                     HStack {
                         Image(systemName: "paintbrush")
                             .foregroundColor(.primary)
@@ -75,8 +36,7 @@ struct SettingsScreen: View {
                                 .tag(theme)
                             }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        .frame(width: 180)
+                        .pickerStyle(.segmented)
                     }
                     
                     Button(action: {
@@ -103,11 +63,16 @@ struct SettingsScreen: View {
                         }
                         
                     }
-                }
-                
-                Section("DİĞER") {
+               
                     Button(action: {
-                        
+                        if MFMailComposeViewController.canSendMail() {
+                            showingMailView = true
+                        } else {
+                            // Fallback: Open default mail app
+                            if let url = URL(string: "mailto:\(Constants.feedbackEmail)?subject=Feedback") {
+                                UIApplication.shared.open(url)
+                            }
+                        }
                     }) {
                         HStack {
                             Image(systemName: "checkmark.circle")
@@ -127,7 +92,7 @@ struct SettingsScreen: View {
                     }
                     
                     Button(action: {
-                        
+                        showingPrivacyPolicy = true
                     }) {
                         HStack {
                             Image(systemName: "lock.document")
@@ -147,7 +112,7 @@ struct SettingsScreen: View {
                     }
                     
                     Button(action: {
-                        
+                        showingTermsOfUsage = true
                     }) {
                         HStack {
                             Image(systemName: "text.document")
@@ -166,29 +131,21 @@ struct SettingsScreen: View {
                         
                     }
                     
-                    
-                }
-                
                 Section {
                     VStack(spacing: 10) {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(LinearGradient(
-                                colors: [.blue, .cyan],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ))
-                            .frame(width: 60, height: 60)
-                            .overlay(
-                                Image(systemName: "bell.fill")
-                                    .font(.system(size: 24))
-                                    .foregroundColor(.white)
-                            )
+                        if let appIcon = UIImage(named: "AppIcon") {
+                            Image(uiImage: appIcon)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
                         
-                        Text("Sarraf")
+                        Text(Bundle.main.displayName)
                             .font(.title2)
                             .fontWeight(.semibold)
                         
-                        Text("Sürüm: 1.0.0")
+                        Text("Sürüm: \(Bundle.main.fullVersion)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
@@ -201,7 +158,7 @@ struct SettingsScreen: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                         
-                        Text("Baazar/Bu uygulama piyasa verilerini takip etmek amacıyla oluşturulmuştur ancak verilerin doğruluğu hakkında bir beyanda bulunmaz.")
+                        Text("\(Bundle.main.displayName)/Bu uygulama piyasa verilerini takip etmek amacıyla oluşturulmuştur ancak verilerin doğruluğu hakkında bir beyanda bulunmaz.")
                             .font(.caption2)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -215,11 +172,54 @@ struct SettingsScreen: View {
             }
             .navigationTitle("Uygulama Ayarları")
             .navigationBarTitleDisplayMode(.inline)
-        }
+            .sheet(isPresented: $showingPrivacyPolicy) {
+                if let url = URL(string: Constants.privacyPolicyURL) {
+                    Browser(url: url)
+                        .ignoresSafeArea()
+                }
+            }
+            .sheet(isPresented: $showingTermsOfUsage) {
+                if let url = URL(string: Constants.termsOfServiceURL) {
+                    Browser(url: url)
+                        .ignoresSafeArea()
+                }
+            }
+            .sheet(isPresented: $showingMailView) {
+                MailView(
+                    toRecipients: [Constants.feedbackEmail],
+                    subject: "Geri Bildirim",
+                    messageBody: """
+                    Merhaba,
+                    
+                    \(Bundle.main.displayName) uygulaması hakkında geri bildirimim:
+                    
+                    
+                    
+                    Uygulama Sürümü: \(Bundle.main.fullVersion)
+                    Cihaz: \(UIDevice.current.model)
+                    iOS Sürümü: \(UIDevice.current.systemVersion)
+                    """,
+                    result: $mailResult
+                )
+            }
     }
 }
 
-
+extension SettingsScreen {
+    enum Theme: String, CaseIterable {
+        case system = "Sistem"
+        case light = "Açık"
+        case dark = "Koyu"
+        
+        var icon: String {
+            switch self {
+            case .system: return "gear"
+            case .light: return "sun.max"
+            case .dark: return "moon"
+            }
+        }
+    }
+}
 
 struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {

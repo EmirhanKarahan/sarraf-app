@@ -1,8 +1,8 @@
 //
 //  String+Extensions.swift
-//  sarraf
+//  Sarraf
 //
-//  Created by Emirhan KARAHAN on 25.07.2025.
+//  Created by Emirhan KARAHAN on 5.07.2025.
 //
 
 import Foundation
