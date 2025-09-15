@@ -15,6 +15,17 @@ struct MailView: UIViewControllerRepresentable {
     let messageBody: String
     @Binding var result: Result<MFMailComposeResult, Error>?
     
+    static let defaultMailBody = """
+                    Merhaba,
+                    
+                    \(Bundle.main.displayName) uygulaması hakkında geri bildirimim:
+                    
+                    
+                    
+                    Uygulama Sürümü: \(Bundle.main.fullVersion)
+                    iOS Sürümü: \(UIDevice.current.systemVersion)
+                    """
+    
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = context.coordinator

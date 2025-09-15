@@ -10,19 +10,17 @@ import SwiftUI
 struct TableHeader: View {
     var body: some View {
         HStack(spacing: 0) {
-            Text("#")
-                .frame(width: 20, alignment: .leading)
             Text("Ürün")
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text("Alış")
-                .frame(width: 80, alignment: .trailing)
+                .frame(width: 85, alignment: .trailing)
             Text("Satış")
-                .frame(width: 80, alignment: .trailing)
+                .frame(width: 85, alignment: .trailing)
             Text("24s %")
                 .frame(width: 70, alignment: .trailing)
         }
-        .font(.subheadline)
-        .foregroundColor(.gray)
+        .font(.system(size: 16))
+        .foregroundColor(.secondary)
         .frame(height: 40)
     }
 }

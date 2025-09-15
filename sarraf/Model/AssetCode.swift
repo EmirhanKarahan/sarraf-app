@@ -1,8 +1,9 @@
 enum AssetCode: String, Decodable {
-    case kulcealtin = "GRAM_ALTIN"
+    case gramAltin = "GRAM_ALTIN"
     case ons = "ONS"
     case ayar22 = "22_AYAR"
     case altin = "HAS_ALTIN"
+    case gramGumus = "GRAM_GUMUS"
     case ceyrekYeni = "YENI_CEYREK"
     case ceyrekEski = "ESKI_CEYREK"
     case yarimYeni = "YENI_YARIM"
@@ -11,13 +12,12 @@ enum AssetCode: String, Decodable {
     case tamEski = "ESKI_TAM"
     case eurtry = "EUR_TRY"
     case usdtry = "USD_TRY"
-    case btc = "BITCOIN"
 }
 
 extension AssetCode {
     var displayName: String {
         switch self {
-        case .kulcealtin:
+        case .gramAltin:
             return "Gram Altın"
         case .ons:
             return "ONS"
@@ -25,6 +25,8 @@ extension AssetCode {
             return "22 Ayar"
         case .altin:
             return "Has Altın"
+        case .gramGumus:
+            return "Gram Gümüş"
         case .ceyrekYeni:
             return "Yeni Çeyrek"
         case .ceyrekEski:
@@ -38,17 +40,15 @@ extension AssetCode {
         case .tamEski:
             return "Eski Tam"
         case .eurtry:
-            return "EUR TRY"
+            return "EUR/TRY"
         case .usdtry:
-            return "USD TRY"
-        case .btc:
-            return "BTC"
+            return "USD/TRY"
         }
     }
     
     var displayImage: ImageResource {
         switch self {
-        case .kulcealtin:
+        case .gramAltin:
             return .gram
         case .ons:
             return .kulce
@@ -56,6 +56,8 @@ extension AssetCode {
             return .kulce
         case .altin:
             return .kulce
+        case .gramGumus:
+            return .gramGumus
         case .ceyrekYeni:
             return .ceyrek
         case .ceyrekEski:
@@ -71,8 +73,6 @@ extension AssetCode {
         case .eurtry:
             return .kulce
         case .usdtry:
-            return .kulce
-        case .btc:
             return .kulce
         }
     }

@@ -15,6 +15,6 @@ struct Constants {
     static let feedbackEmail = "sarraf.app@emirhankarahan.com"
 
     // MARK: - URLs
-    static let privacyPolicyURL = "https://www.notion.so/emirhankarahan/Gizlilik-Politikas-2430a7088fe18042a004e3717cb89c25?source=copy_link"
-    static let termsOfServiceURL = "https://www.notion.so/emirhankarahan/Kullan-m-Ko-ullar-2430a7088fe180bfa7edf455bd41625f?source=copy_link"
+    static let privacyPolicyURL = "https://www.emirhankarahan.com/apps/sarraf/privacy-policy"
+    static let termsOfServiceURL = "https://www.emirhankarahan.com/apps/sarraf/terms-of-use"
 }

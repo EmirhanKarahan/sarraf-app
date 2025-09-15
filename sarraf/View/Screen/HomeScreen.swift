@@ -17,9 +17,8 @@ struct HomeScreen: View {
                 TableHeader()
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        ForEach(model.listAssetPrices.indices, id: \.self) { index in
-                            let asset = model.listAssetPrices[index]
-                            TableRow(index: index + 1, asset: asset)
+                        ForEach(model.listAssetPrices) { asset in
+                            TableRow(asset: asset)
                         }
                         Spacer()
                     }
@@ -33,9 +32,12 @@ struct HomeScreen: View {
                     Image(systemName: "gear")
                 })
             }
-        }
-        .task {
-            model.connect()
+            .task {
+                model.startFetchingPrices()
+            }
+            .onDisappear {
+                model.stopFetchingPrices()
+            }
         }
     }
 }

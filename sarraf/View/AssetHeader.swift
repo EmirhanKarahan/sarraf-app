@@ -25,11 +25,11 @@ extension AssetHeader {
             ForEach(model.headerAssetPrices) { assetPrice in
                 VStack {
                     Text(assetPrice.code.displayName.localizedUppercase).font(.system(size: 12))
-                    Text(verbatim: .formattedPrice(price: assetPrice.sell))
+                    Text(assetPrice.isPlaceholder ? "-" : .formattedPrice(price: assetPrice.sell))
                         .font(.system(size: 18)
                             .weight(.semibold))
                 }
-                if assetPrice.code != .btc {
+                if assetPrice.code != .gramGumus {
                     Spacer()
                 }
             }

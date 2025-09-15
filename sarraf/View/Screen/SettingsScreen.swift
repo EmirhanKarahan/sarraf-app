@@ -9,7 +9,7 @@ import SwiftUI
 import MessageUI
 
 struct SettingsScreen: View {
-    @State private var selectedTheme: Theme = .system
+    @EnvironmentObject private var themeManager: ThemeManager
     @State private var showingMailView = false
     @State private var mailResult: Result<MFMailComposeResult, Error>?
     @State private var showingPrivacyPolicy = false
@@ -27,16 +27,14 @@ struct SettingsScreen: View {
                         
                         Spacer()
                         
-                        Picker("Tema", selection: $selectedTheme) {
-                            ForEach(Theme.allCases, id: \.self) { theme in
-                                HStack {
-                                    Image(systemName: theme.icon)
-                                    Text(theme.rawValue)
-                                }
+                        Picker("Tema", selection: $themeManager.selectedTheme) {
+                            ForEach(ThemeManager.Theme.allCases, id: \.self) { theme in
+                                Text(theme.rawValue)
                                 .tag(theme)
                             }
                         }
                         .pickerStyle(.segmented)
+                        .fixedSize(horizontal: true, vertical: false)
                     }
                     
                     Button(action: {
@@ -188,41 +186,17 @@ struct SettingsScreen: View {
                 MailView(
                     toRecipients: [Constants.feedbackEmail],
                     subject: "Geri Bildirim",
-                    messageBody: """
-                    Merhaba,
-                    
-                    \(Bundle.main.displayName) uygulaması hakkında geri bildirimim:
-                    
-                    
-                    
-                    Uygulama Sürümü: \(Bundle.main.fullVersion)
-                    Cihaz: \(UIDevice.current.model)
-                    iOS Sürümü: \(UIDevice.current.systemVersion)
-                    """,
+                    messageBody: MailView.defaultMailBody,
                     result: $mailResult
                 )
             }
     }
 }
 
-extension SettingsScreen {
-    enum Theme: String, CaseIterable {
-        case system = "Sistem"
-        case light = "Açık"
-        case dark = "Koyu"
-        
-        var icon: String {
-            switch self {
-            case .system: return "gear"
-            case .light: return "sun.max"
-            case .dark: return "moon"
-            }
-        }
-    }
-}
 
 struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
         SettingsScreen()
+            .environmentObject(ThemeManager())
     }
 }

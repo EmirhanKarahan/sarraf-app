@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "gram-gumus.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

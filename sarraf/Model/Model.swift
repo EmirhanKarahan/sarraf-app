@@ -8,86 +8,133 @@
 import Foundation
 import Combine
 
+// MARK: - API Response Models
+struct APIResponse: Decodable {
+    let meta: APIMeta?
+    let data: [AssetPrice]
+}
+
+struct APIMeta: Decodable {
+    // Add meta fields as needed based on your API response
+}
+
+@MainActor
 final class Model: ObservableObject {
     
-    private var webSocketTask: URLSessionWebSocketTask?
-    private var cancellables = Set<AnyCancellable>()
+    private var pollingTask: Task<Void, Never>?
     
-    private let assetHeaderFields: [AssetCode] = [.usdtry, .eurtry, .altin, .btc]
-    private let assetListFields: [AssetCode] = [.ons, .altin, .kulcealtin, .ayar22, .ceyrekYeni, .ceyrekEski, .yarimYeni, .yarimEski, .tamYeni, .tamEski]
+    init() {
+        // Initialize with placeholder data
+        listAssetPrices = placeholderListAssets
+        headerAssetPrices = placeholderHeaderAssets
+    }
+    
+    private let assetHeaderFields: [AssetCode] = [.usdtry, .eurtry, .gramAltin, .gramGumus]
+    private let assetListFields: [AssetCode] = [.ons, .altin, .gramAltin, .gramGumus, .ayar22, .ceyrekYeni, .ceyrekEski, .yarimYeni, .yarimEski, .tamYeni, .tamEski]
     
     @Published var listAssetPrices: [AssetPrice] = []
     @Published var headerAssetPrices: [AssetPrice] = []
+    
+    // Placeholder data for initial display
+    private var placeholderListAssets: [AssetPrice] {
+        assetListFields.map { code in
+            AssetPrice(
+                code: code,
+                buy: 0,
+                sell: 0,
+                low: 0,
+                high: 0,
+                close: 0
+            )
+        }
+    }
+    
+    private var placeholderHeaderAssets: [AssetPrice] {
+        assetHeaderFields.map { code in
+            AssetPrice(
+                code: code,
+                buy: 0,
+                sell: 0,
+                low: 0,
+                high: 0,
+                close: 0
+            )
+        }
+    }
     
     func getAssetPrice(asset: AssetCode) -> AssetPrice? {
         let assetPrices: [AssetPrice] = headerAssetPrices + listAssetPrices
         return assetPrices.first(where: { $0.code == asset })
     }
     
-    func connect() {
-        guard let url = URL(string: "wss://\(Constants.API_URL)") else {
-            debugPrint("❌ WebSocket URL geçersiz.")
+    func startFetchingPrices() {
+        Task {
+            await fetchPrices()
+            startPolling()
+        }
+    }
+    
+    func stopFetchingPrices() {
+        pollingTask?.cancel()
+        pollingTask = nil
+    }
+     
+    private func startPolling() {
+        pollingTask = Task {
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(5))
+                if !Task.isCancelled {
+                    await fetchPrices()
+                }
+            }
+        }
+    }
+    
+    func fetchPrices() async {
+        guard let url = URL(string: "https://\(Constants.API_URL)/api/prices") else {
+            debugPrint("❌ API URL geçersiz.")
             return
         }
         
-        let session = URLSession(configuration: .default)
-        webSocketTask = session.webSocketTask(with: url)
-        webSocketTask?.resume()
-        
-        listen()
-    }
-    
-    private func listen() {
-        webSocketTask?.receive { [weak self] result in
-            guard let self = self else { return }
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
             
-            switch result {
-            case .success(let message):
-                switch message {
-                case .data(let data):
-                    self.handleIncomingData(data)
-                case .string(let text):
-                    if let data = text.data(using: .utf8) {
-                        self.handleIncomingData(data)
-                    }
-                @unknown default:
-                    debugPrint("⚠️ Bilinmeyen WebSocket mesajı alındı.")
-                }
-            case .failure(let error):
-                debugPrint("❌ WebSocket hatası: \(error)")
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                debugPrint("❌ HTTP hatası: \((response as? HTTPURLResponse)?.statusCode ?? -1)")
+                return
             }
             
-            // Tekrar dinlemeyi başlat
-            self.listen()
+            await handleIncomingData(data)
+            
+        } catch {
+            debugPrint("❌ API hatası: \(error)")
         }
     }
     
-    private func handleIncomingData(_ data: Data) {
+    private func handleIncomingData(_ data: Data) async {
         do {
-            let data = try JSONDecoder().decode([AssetPrice].self, from: data)
-            DispatchQueue.main.async {
-                // Filter and sort listAssetPrices according to assetListFields order
-                let filteredListData = data.filter { self.assetListFields.contains($0.code) }
-                self.listAssetPrices = filteredListData.sorted { first, second in
-                    let firstIndex = self.assetListFields.firstIndex(of: first.code) ?? 0
-                    let secondIndex = self.assetListFields.firstIndex(of: second.code) ?? 0
-                    return firstIndex < secondIndex
-                }
-                
-                // Filter and sort headerAssetPrices according to assetHeaderFields order
-                let filteredHeaderData = data.filter { self.assetHeaderFields.contains($0.code) }
-                self.headerAssetPrices = filteredHeaderData.sorted { first, second in
-                    let firstIndex = self.assetHeaderFields.firstIndex(of: first.code) ?? Int.max
-                    let secondIndex = self.assetHeaderFields.firstIndex(of: second.code) ?? Int.max
-                    return firstIndex < secondIndex
-                }
+            let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
+            
+            // Filter and sort listAssetPrices according to assetListFields order
+            let filteredListData = apiResponse.data.filter { assetListFields.contains($0.code) }
+            listAssetPrices = filteredListData.sorted { first, second in
+                let firstIndex = assetListFields.firstIndex(of: first.code) ?? 0
+                let secondIndex = assetListFields.firstIndex(of: second.code) ?? 0
+                return firstIndex < secondIndex
             }
+            
+            // Filter and sort headerAssetPrices according to assetHeaderFields order
+            let filteredHeaderData = apiResponse.data.filter { assetHeaderFields.contains($0.code) }
+            headerAssetPrices = filteredHeaderData.sorted { first, second in
+                let firstIndex = assetHeaderFields.firstIndex(of: first.code) ?? Int.max
+                let secondIndex = assetHeaderFields.firstIndex(of: second.code) ?? Int.max
+                return firstIndex < secondIndex
+            }
+            
+            debugPrint(apiResponse.data)
         } catch {
             debugPrint("❌ Veri ayrıştırılamadı: \(error)")
         }
-    }
-    
-    func disconnect() {
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
     }
 }

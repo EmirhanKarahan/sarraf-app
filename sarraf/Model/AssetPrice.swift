@@ -16,12 +16,13 @@ struct AssetPrice: Decodable {
     let close: Double
     
     var difference: Double {
-        let diff = ((buy - close) / close) * 100
+        let diff = ((sell - close) / close)
         return diff
     }
     
     var differenceString: String {
-        return String(format: "%.2f%%", abs(difference))
+        let difference = abs(difference)
+        return AppNumberFormatter.getNumberAsPercentString(number: difference, minimumFractionDigits: 2, maximumFractionDigits: 2)
     }
     
 }
@@ -31,3 +32,9 @@ extension AssetPrice: Identifiable {
 }
 
 extension AssetPrice: Equatable {}
+
+extension AssetPrice {
+    var isPlaceholder: Bool {
+        return buy == 0 && sell == 0 && low == 0 && high == 0 && close == 0
+    }
+}
