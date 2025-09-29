@@ -41,8 +41,8 @@ final class TableRowViewModel: ObservableObject {
     private func triggerBuyHighlight(_ color: Color) {
         buyHighlightColor = color
         // 0.3 saniye sonra rengi sıfırla
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            withAnimation(.easeOut(duration: 0.4)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            withAnimation(.easeOut(duration: 0.7)) {
                 self.buyHighlightColor = nil
             }
         }
@@ -51,8 +51,8 @@ final class TableRowViewModel: ObservableObject {
     private func triggerSellHighlight(_ color: Color) {
         sellHighlightColor = color
         // 0.3 saniye sonra rengi sıfırla
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            withAnimation(.easeOut(duration: 0.4)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            withAnimation(.easeOut(duration: 0.7)) {
                 self.sellHighlightColor = nil
             }
         }

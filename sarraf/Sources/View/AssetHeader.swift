@@ -28,6 +28,7 @@ extension AssetHeader {
                     Text(assetPrice.isPlaceholder ? "-" : .formattedPrice(price: assetPrice.sell))
                         .font(.system(size: 18)
                         .weight(.semibold))
+                        .animatedNumber(value: assetPrice.sell)
                 }
                 if assetPrice.code != .gramGumus {
                     Spacer()

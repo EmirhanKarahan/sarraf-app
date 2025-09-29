@@ -38,11 +38,10 @@ struct HomeScreen: View {
                 }
                 .buttonStyle(CalculatorButtonStyle())
                 .padding(.bottom)
-                .popover(isPresented: $showingCalculator) {
+                .popover(isPresented: $showingCalculator, arrowEdge: .bottom) {
                     CalculatorView()
                         .presentationCompactAdaptation(.popover)
                 }
-                
             }
             .lineLimit(0)
             .minimumScaleFactor(0.5)
@@ -60,7 +59,6 @@ struct HomeScreen: View {
             .onDisappear {
                 model.stopFetchingPrices()
             }
-            
         }
     }
 }

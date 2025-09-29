@@ -32,34 +32,39 @@ struct TableRow: View {
                 Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.buy,
                                                                  currencyCode: asset.code.currencyCode,
                                                                  maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
-                    .font(.system(size: 16).weight(.semibold))
-                    .padding(4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(viewModel.buyHighlightColor ?? Color.clear)
-                            .animation(.easeOut(duration: 0.3), value: viewModel.buyHighlightColor)
-                    )
-            }.frame(width: 85, alignment: .trailing)
+                .animatedNumber(value: asset.buy)
+                .font(.system(size: 16).weight(.semibold))
+                .padding(4)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(viewModel.buyHighlightColor ?? Color.clear)
+                        .animation(.easeOut(duration: 0.7), value: viewModel.buyHighlightColor)
+                )
+            }
+            .frame(width: 85, alignment: .trailing)
             
             HStack(spacing: 0) {
                 Spacer()
                 Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.sell,
                                                                  currencyCode: asset.code.currencyCode,
                                                                  maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
-                    .font(.system(size: 16).weight(.semibold))
-                    .padding(4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(viewModel.sellHighlightColor ?? Color.clear)
-                            .animation(.easeOut(duration: 0.3), value: viewModel.sellHighlightColor)
-                    )
-            }.frame(width: 85, alignment: .trailing)
+                .animatedNumber(value: asset.sell)
+                .font(.system(size: 16).weight(.semibold))
+                .padding(4)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(viewModel.sellHighlightColor ?? Color.clear)
+                        .animation(.easeOut(duration: 0.7), value: viewModel.sellHighlightColor)
+                )
+            }
+            .frame(width: 85, alignment: .trailing)
             
             HStack(spacing: 2) {
                 if !asset.isPlaceholder {
                     differenceImage?.foregroundStyle(differenceColor).font(.system(size: 8))
                 }
                 Text(asset.isPlaceholder ? "-" : asset.differenceString)
+                    .animatedNumber(value: asset.difference)
                     .font(.system(size: 14))
                     .foregroundColor(asset.isPlaceholder ? .primary : differenceColor)
             }
