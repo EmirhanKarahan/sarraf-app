@@ -36,8 +36,19 @@ class ThemeManager: ObservableObject {
 
 extension ThemeManager {
     enum Theme: String, CaseIterable {
-        case system = "Sistem"
-        case light = "Açık"
-        case dark = "Koyu"
+        case system
+        case light
+        case dark
+        
+        var displayName: LocalizedStringResource {
+            switch self {
+            case .system:
+                return "Sistem"
+            case .light:
+                return "Açık"
+            case .dark:
+                return "Koyu"
+            }
+        }
     }
 }

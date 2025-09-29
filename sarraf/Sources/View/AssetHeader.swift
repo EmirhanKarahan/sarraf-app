@@ -27,19 +27,15 @@ extension AssetHeader {
                     Text(assetPrice.code.displayName.localizedUppercase).font(.system(size: 12))
                     Text(assetPrice.isPlaceholder ? "-" : .formattedPrice(price: assetPrice.sell))
                         .font(.system(size: 18)
-                            .weight(.semibold))
+                        .weight(.semibold))
                 }
                 if assetPrice.code != .gramGumus {
                     Spacer()
                 }
             }
-        }.padding().frame(maxWidth: .infinity)
-    }
-}
-
-extension AssetHeader {
-    func getSalePriceFor(asset: AssetCode) -> Double {
-        return model.getAssetPrice(asset: asset)?.sell ?? 0
+        }
+        .padding()
+        .frame(maxWidth: .infinity)
     }
 }
 

@@ -29,7 +29,9 @@ struct TableRow: View {
             
             HStack(spacing: 0) {
                 Spacer()
-                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.buy, maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
+                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.buy,
+                                                                 currencyCode: asset.code.currencyCode,
+                                                                 maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
                     .font(.system(size: 16).weight(.semibold))
                     .padding(4)
                     .background(
@@ -41,7 +43,9 @@ struct TableRow: View {
             
             HStack(spacing: 0) {
                 Spacer()
-                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.sell, maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
+                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.sell,
+                                                                 currencyCode: asset.code.currencyCode,
+                                                                 maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
                     .font(.system(size: 16).weight(.semibold))
                     .padding(4)
                     .background(

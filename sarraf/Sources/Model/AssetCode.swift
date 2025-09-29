@@ -1,20 +1,31 @@
 enum AssetCode: String, Decodable {
-    case gramAltin = "GRAM_ALTIN"
+    case tamYeni = "YENI_TAM"
+    case tamEski = "ESKI_TAM"
+    case yarimYeni = "YENI_YARIM"
+    case yarimEski = "ESKI_YARIM"
+    case ceyrekYeni = "YENI_CEYREK"
+    case ceyrekEski = "ESKI_CEYREK"
     case ons = "ONS"
     case ayar22 = "22_AYAR"
     case altin = "HAS_ALTIN"
     case gramGumus = "GRAM_GUMUS"
-    case ceyrekYeni = "YENI_CEYREK"
-    case ceyrekEski = "ESKI_CEYREK"
-    case yarimYeni = "YENI_YARIM"
-    case yarimEski = "ESKI_YARIM"
-    case tamYeni = "YENI_TAM"
-    case tamEski = "ESKI_TAM"
+    case gramAltin = "GRAM_ALTIN"
     case eurtry = "EUR_TRY"
     case usdtry = "USD_TRY"
 }
 
+extension AssetCode: CaseIterable {}
+
 extension AssetCode {
+    var currencyCode: CurrencyCode {
+        switch self {
+        case .ons:
+            return .usd
+        default:
+            return .tl
+        }
+    }
+    
     var displayName: String {
         switch self {
         case .gramAltin:

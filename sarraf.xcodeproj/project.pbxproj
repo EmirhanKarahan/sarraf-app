@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B962E8A682200B27B58 /* FirebaseAnalytics */; };
+		1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B982E8A682200B27B58 /* FirebaseCrashlytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1ED8658E2E2D0CCA00E2E1C8 /* sarraf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sarraf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -14,7 +19,7 @@
 		1E78B7392E350F2C0073E40D /* Exceptions for "sarraf" folder in "sarraf" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resources/Info.plist,
 			);
 			target = 1ED8658D2E2D0CCA00E2E1C8 /* sarraf */;
 		};
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */,
+				1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = sarraf;
 			packageProductDependencies = (
+				1E622B962E8A682200B27B58 /* FirebaseAnalytics */,
+				1E622B982E8A682200B27B58 /* FirebaseCrashlytics */,
 			);
 			productName = sarraf;
 			productReference = 1ED8658E2E2D0CCA00E2E1C8 /* sarraf.app */;
@@ -99,14 +108,17 @@
 				};
 			};
 			buildConfigurationList = 1ED865892E2D0CCA00E2E1C8 /* Build configuration list for PBXProject "sarraf" */;
-			developmentRegion = en;
+			developmentRegion = tr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				tr,
 			);
 			mainGroup = 1ED865852E2D0CCA00E2E1C8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1ED8658F2E2D0CCA00E2E1C8 /* Products */;
 			projectDirPath = "";
@@ -198,6 +210,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -255,6 +268,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -262,7 +276,7 @@
 		1ED8659A2E2D0CCB00E2E1C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 1ED865902E2D0CCA00E2E1C8 /* sarraf */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -271,7 +285,7 @@
 				DEVELOPMENT_TEAM = W35MT3Z3FQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = sarraf/Info.plist;
+				INFOPLIST_FILE = sarraf/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Sarraf;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -298,7 +312,7 @@
 		1ED8659B2E2D0CCB00E2E1C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 1ED865902E2D0CCA00E2E1C8 /* sarraf */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -307,7 +321,7 @@
 				DEVELOPMENT_TEAM = W35MT3Z3FQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = sarraf/Info.plist;
+				INFOPLIST_FILE = sarraf/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Sarraf;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -353,6 +367,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1E622B962E8A682200B27B58 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		1E622B982E8A682200B27B58 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1ED865862E2D0CCA00E2E1C8 /* Project object */;
 }

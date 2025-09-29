@@ -17,12 +17,9 @@ struct CurrencyFormatter {
     static func formatPrice(price: Double, currencyCode: CurrencyCode, maximumFractionDigits: Int) -> String {
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
-        currencyFormatter.locale = Locale.current
         currencyFormatter.currencyCode = currencyCode.rawValue
-        
         currencyFormatter.minimumFractionDigits = 0
         currencyFormatter.maximumFractionDigits = maximumFractionDigits
-        
         return currencyFormatter.string(from: price as NSNumber)!
     }
     

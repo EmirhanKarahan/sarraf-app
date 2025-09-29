@@ -12,7 +12,7 @@ struct Constants {
     static let API_URL = Bundle.main.infoDictionary?["API_URL"] as? String ?? ""
     
     // MARK: - Contact Information
-    static let feedbackEmail = "sarraf.app@emirhankarahan.com"
+    static let feedbackEmail = "mail@emirhankarahan.com"
 
     // MARK: - URLs
     static let privacyPolicyURL = "https://www.emirhankarahan.com/apps/sarraf/privacy-policy"

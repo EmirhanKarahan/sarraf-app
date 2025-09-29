@@ -33,6 +33,8 @@ extension AssetPrice: Identifiable {
 
 extension AssetPrice: Equatable {}
 
+extension AssetPrice: Hashable {}
+
 extension AssetPrice {
     var isPlaceholder: Bool {
         return buy == 0 && sell == 0 && low == 0 && high == 0 && close == 0
