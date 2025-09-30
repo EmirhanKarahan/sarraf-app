@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E02A56A2E8C4F8D00EF9A64 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 1E02A5692E8C4F8D00EF9A64 /* GoogleMobileAds */; };
 		1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B962E8A682200B27B58 /* FirebaseAnalytics */; };
 		1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B982E8A682200B27B58 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E02A56A2E8C4F8D00EF9A64 /* GoogleMobileAds in Frameworks */,
 				1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */,
 				1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */,
 			);
@@ -88,6 +90,7 @@
 			packageProductDependencies = (
 				1E622B962E8A682200B27B58 /* FirebaseAnalytics */,
 				1E622B982E8A682200B27B58 /* FirebaseCrashlytics */,
+				1E02A5692E8C4F8D00EF9A64 /* GoogleMobileAds */,
 			);
 			productName = sarraf;
 			productReference = 1ED8658E2E2D0CCA00E2E1C8 /* sarraf.app */;
@@ -119,6 +122,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				1E02A5682E8C4F8D00EF9A64 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1ED8658F2E2D0CCA00E2E1C8 /* Products */;
@@ -154,7 +158,6 @@
 				"$(SRCROOT)/${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
 				"$(SRCROOT)/$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
 				"$(SRCROOT)/$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
-				"$(SRCROOT)/${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib",
 			);
 			name = "Firebase Crashlytics";
 			outputFileListPaths = (
@@ -313,7 +316,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = W35MT3Z3FQ;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sarraf/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Sarraf;
@@ -351,7 +355,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W35MT3Z3FQ;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = sarraf/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Sarraf;
@@ -402,6 +407,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1E02A5682E8C4F8D00EF9A64 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads?tab=readme-ov-file";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
 		1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -413,6 +426,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1E02A5692E8C4F8D00EF9A64 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E02A5682E8C4F8D00EF9A64 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		1E622B962E8A682200B27B58 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

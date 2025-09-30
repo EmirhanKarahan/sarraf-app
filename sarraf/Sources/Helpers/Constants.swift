@@ -10,6 +10,7 @@ import Foundation
 struct Constants {
     // MARK: - API Configuration
     static let API_URL = Bundle.main.infoDictionary?["API_URL"] as? String ?? ""
+    static let GOOGLE_BANNER_UNIT_ID = Bundle.main.infoDictionary?["GOOGLE_BANNER_UNIT_ID"] as? String ?? ""
     
     // MARK: - Contact Information
     static let feedbackEmail = "mail@emirhankarahan.com"

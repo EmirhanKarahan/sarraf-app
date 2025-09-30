@@ -9,3 +9,4 @@
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 
 API_URL = your-api-url-goes-here
+GOOGLE_BANNER_UNIT_ID =

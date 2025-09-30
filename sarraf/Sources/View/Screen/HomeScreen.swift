@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 struct HomeScreen: View {
     @EnvironmentObject private var model: Model
@@ -13,39 +14,48 @@ struct HomeScreen: View {
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .bottomTrailing) {
-                VStack (spacing: 0) {
-                    AssetHeader()
-                    TableHeader()
-                    ScrollView(showsIndicators: false) {
-                        VStack(alignment: .leading, spacing: 0) {
-                            ForEach(model.listAssetPrices) { asset in
-                                TableRow(asset: asset)
+            VStack (spacing: 0) {
+                ZStack(alignment: .bottomTrailing) {
+                    VStack (spacing: 0) {
+                        AssetHeader()
+                        TableHeader()
+                        ScrollView(showsIndicators: false) {
+                            VStack(alignment: .leading, spacing: 0) {
+                                ForEach(model.listAssetPrices) { asset in
+                                    TableRow(asset: asset)
+                                }
+                                Spacer()
+                                    .frame(height: 80)
                             }
-                            Spacer().frame(height: 80)
+                            
                         }
                     }
-                }
+                    
+                    Button(action: {
+                        showingCalculator = true
+                    }) {
+                        Label("Hesaplayıcı", systemImage: "plus.forwardslash.minus")
+                            .bold()
+                            .labelStyle(.iconOnly)
+                            .padding()
+                        
+                    }
+                    .buttonStyle(CalculatorButtonStyle())
+                    .padding(.bottom)
+                    .popover(isPresented: $showingCalculator, arrowEdge: .bottom) {
+                        CalculatorView()
+                            .environmentObject(model)
+                            .presentationCompactAdaptation(.popover)
+                    }
+                    
+                }.padding(.horizontal)
                 
-                Button(action: {
-                    showingCalculator = true
-                }) {
-                    Label("Hesaplayıcı", systemImage: "plus.forwardslash.minus")
-                        .bold()
-                        .labelStyle(.iconOnly)
-                        .padding()
-                       
-                }
-                .buttonStyle(CalculatorButtonStyle())
-                .padding(.bottom)
-                .popover(isPresented: $showingCalculator, arrowEdge: .bottom) {
-                    CalculatorView()
-                        .presentationCompactAdaptation(.popover)
-                }
+                let adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
+                BannerViewContainer(adSize)
+                    .frame(width: adSize.size.width, height: adSize.size.height)
             }
             .lineLimit(0)
             .minimumScaleFactor(0.5)
-            .padding(.horizontal)
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Kapalı Çarşı")
             .toolbar {
