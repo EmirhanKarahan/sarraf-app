@@ -7,10 +7,14 @@
 
 import SwiftUI
 import GoogleMobileAds
+import FirebaseRemoteConfig
 
 struct HomeScreen: View {
     @EnvironmentObject private var model: Model
     @State private var showingCalculator = false
+    private let remoteConfig = RemoteConfig.remoteConfig()
+    @RemoteConfigProperty(key: Constants.RemoteConfig.isHomeBannerVisible, fallback: false)
+    var isHomeBannerVisible
     
     var body: some View {
         NavigationStack {
@@ -50,9 +54,11 @@ struct HomeScreen: View {
                     
                 }.padding(.horizontal)
                 
-                let adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
-                BannerViewContainer(adSize)
-                    .frame(width: adSize.size.width, height: adSize.size.height)
+                if isHomeBannerVisible {
+                    let adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
+                    BannerViewContainer(adSize)
+                        .frame(width: adSize.size.width, height: adSize.size.height)
+                }
             }
             .lineLimit(0)
             .minimumScaleFactor(0.5)
@@ -65,6 +71,11 @@ struct HomeScreen: View {
             }
             .task {
                 model.startFetchingPrices()
+            }
+            .onAppear {
+                remoteConfig.addOnConfigUpdateListener { update, error in
+                    remoteConfig.activate()
+                }
             }
             .onDisappear {
                 model.stopFetchingPrices()

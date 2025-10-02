@@ -19,3 +19,9 @@ struct Constants {
     static let privacyPolicyURL = "https://www.emirhankarahan.com/apps/sarraf/privacy-policy"
     static let termsOfServiceURL = "https://www.emirhankarahan.com/apps/sarraf/terms-of-use"
 }
+
+extension Constants {
+    enum RemoteConfig {
+       static let isHomeBannerVisible = "IS_HOME_BANNER_VISIBLE"
+    }
+}
