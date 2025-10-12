@@ -18,8 +18,8 @@ struct APIMeta: Decodable {
     // Add meta fields as needed based on your API response
 }
 
-@MainActor
-final class Model: ObservableObject {
+@MainActor @Observable
+final class Model {
     
     private var pollingTask: Task<Void, Never>?
     
@@ -32,8 +32,8 @@ final class Model: ObservableObject {
     private let assetHeaderFields: [AssetCode] = [.usdtry, .eurtry, .gramAltin, .gramGumus]
     private let assetListFields: [AssetCode] = [.ons, .altin, .gramAltin, .gramGumus, .ayar22, .ceyrekYeni, .ceyrekEski, .yarimYeni, .yarimEski, .tamYeni, .tamEski]
     
-    @Published var listAssetPrices: [AssetPrice] = []
-    @Published var headerAssetPrices: [AssetPrice] = []
+    var listAssetPrices: [AssetPrice] = []
+    var headerAssetPrices: [AssetPrice] = []
     
     // Placeholder data for initial display
     private var placeholderListAssets: [AssetPrice] {

@@ -7,13 +7,8 @@
 
 import SwiftUI
 
-enum CalculationType: String, CaseIterable {
-    case buy = "alış"
-    case sell = "satış"
-}
-
 struct CalculatorView: View {
-    @EnvironmentObject private var model: Model
+    @Environment(Model.self) var model: Model
     @State private var amount: Double = 1
     @State private var selectedAsset: AssetCode = .gramAltin
     @State private var selectedType: CalculationType = .sell
@@ -30,25 +25,8 @@ struct CalculatorView: View {
     var body: some View {
         VStack {
             HStack {
-                Picker("Miktar", selection: $amount) {
-                    ForEach(1...100, id: \.self) { number in
-                        Text("\(number)")
-                            .tag(Double(number))
-                            .padding(8)
-                    }
-                }
-                
-                Menu {
-                    ForEach(AssetCode.allCases, id: \.hashValue) { code in
-                        Button(code.displayName) {
-                            selectedAsset = code
-                        }
-                    }
-                } label: {
-                    Text(selectedAsset.displayName.localizedLowercase)
-                        .padding(8)
-                }.fixedSize()
-                
+                AmountPicker(amount: $amount)
+                AssetMenu(selectedAsset: $selectedAsset)
             }.fixedSize()
             
             HStack {

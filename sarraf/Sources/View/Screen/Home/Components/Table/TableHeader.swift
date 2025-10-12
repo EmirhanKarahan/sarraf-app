@@ -22,6 +22,5 @@ struct TableHeader: View {
         .font(.system(size: 16))
         .foregroundColor(.secondary)
         .frame(height: 40)
-        .shadow(radius: 4)
     }
 }

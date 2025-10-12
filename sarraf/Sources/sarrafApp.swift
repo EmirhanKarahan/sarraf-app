@@ -22,15 +22,26 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct sarrafApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var themeManager = ThemeManager()
-    @StateObject private var model = Model()
+    @State private var model = Model()
+    @State var selectedTab = 0
     
     var body: some Scene {
         WindowGroup {
-            HomeScreen()
-                .environmentObject(model)
-                .environmentObject(themeManager)
-                .preferredColorScheme(themeManager.colorScheme)
+            TabView(selection: $selectedTab) {
+                HomeScreen()
+                    .tag(0)
+                    .tabItem {
+                        Label("Fiyatlar", systemImage: "house")
+                    }
+                CalculatorScreen()
+                    .tag(1)
+                    .tabItem {
+                        Label("Hesaplayıcı", systemImage: "x.squareroot")
+                    }
+            }
+            .environment(model)
+            .environmentObject(themeManager)
+            .preferredColorScheme(themeManager.colorScheme)
         }
     }
 }
-

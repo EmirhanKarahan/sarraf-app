@@ -10,11 +10,10 @@ import GoogleMobileAds
 import FirebaseRemoteConfig
 
 struct HomeScreen: View {
-    @EnvironmentObject private var model: Model
+    @Environment(Model.self) var model: Model
     @State private var showingCalculator = false
+    @RemoteConfigProperty(key: Constants.RemoteConfig.isHomeBannerVisible, fallback: false) private var isHomeBannerVisible
     private let remoteConfig = RemoteConfig.remoteConfig()
-    @RemoteConfigProperty(key: Constants.RemoteConfig.isHomeBannerVisible, fallback: false)
-    var isHomeBannerVisible
     
     var body: some View {
         NavigationStack {
@@ -31,7 +30,6 @@ struct HomeScreen: View {
                                 Spacer()
                                     .frame(height: 80)
                             }
-                            
                         }
                     }
                     
@@ -42,17 +40,16 @@ struct HomeScreen: View {
                             .bold()
                             .labelStyle(.iconOnly)
                             .padding()
-                        
                     }
                     .buttonStyle(CalculatorButtonStyle())
                     .padding(.bottom)
                     .popover(isPresented: $showingCalculator, arrowEdge: .bottom) {
                         CalculatorView()
-                            .environmentObject(model)
+                            .environment(model)
                             .presentationCompactAdaptation(.popover)
                     }
-                    
-                }.padding(.horizontal)
+                }
+                .padding(.horizontal)
                 
                 if isHomeBannerVisible {
                     let adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
@@ -69,37 +66,17 @@ struct HomeScreen: View {
                     Image(systemName: "gear")
                 })
             }
-            .task {
-                model.startFetchingPrices()
-            }
             .onAppear {
                 remoteConfig.addOnConfigUpdateListener { update, error in
                     remoteConfig.activate()
                 }
+            }
+            .task {
+                model.startFetchingPrices()
             }
             .onDisappear {
                 model.stopFetchingPrices()
             }
         }
     }
-}
-
-struct CalculatorButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        if #available(iOS 26.0, *) {
-            configuration.label
-                .glassEffect(.regular.interactive())
-                .contentShape(Rectangle())
-        } else {
-            configuration.label
-                .background(.thickMaterial)
-                .clipShape(.circle)
-                .shadow(radius: 4)
-                .contentShape(Rectangle())
-        }
-    }
-}
-
-#Preview {
-    HomeScreen()
 }

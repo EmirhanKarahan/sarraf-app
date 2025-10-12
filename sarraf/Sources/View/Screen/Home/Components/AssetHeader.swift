@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AssetHeader: View {
-    @EnvironmentObject private var model: Model
+    @Environment(Model.self) var model: Model
     
     var body: some View {
         if #available(iOS 26.0, *) {
@@ -38,8 +38,4 @@ extension AssetHeader {
         .padding()
         .frame(maxWidth: .infinity)
     }
-}
-
-#Preview {
-    AssetHeader()
 }

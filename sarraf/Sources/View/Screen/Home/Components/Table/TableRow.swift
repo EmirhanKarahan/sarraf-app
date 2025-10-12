@@ -75,11 +75,11 @@ struct TableRow: View {
         .onAppear {
             viewModel.update(with: asset.buy, newSell: asset.sell)
         }
-        .onChange(of: asset.buy) { newBuy in
-            viewModel.update(with: newBuy, newSell: asset.sell)
+        .onChange(of: asset.buy) {
+            viewModel.update(with: asset.buy, newSell: asset.sell)
         }
-        .onChange(of: asset.sell) { newSell in
-            viewModel.update(with: asset.buy, newSell: newSell)
+        .onChange(of: asset.sell) {
+            viewModel.update(with: asset.buy, newSell: asset.sell)
         }
     }
     

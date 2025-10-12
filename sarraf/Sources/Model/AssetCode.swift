@@ -1,3 +1,5 @@
+import SwiftUI
+
 enum AssetCode: String, Decodable {
     case tamYeni = "YENI_TAM"
     case tamEski = "ESKI_TAM"
@@ -12,6 +14,7 @@ enum AssetCode: String, Decodable {
     case gramAltin = "GRAM_ALTIN"
     case eurtry = "EUR_TRY"
     case usdtry = "USD_TRY"
+    case tl = "TRY"
 }
 
 extension AssetCode: CaseIterable {}
@@ -54,6 +57,19 @@ extension AssetCode {
             return "EUR/TRY"
         case .usdtry:
             return "USD/TRY"
+        case .tl:
+            return "TRY"
+        }
+    }
+    
+    var standaloneName: String {
+        switch self {
+        case .usdtry:
+            return "USD"
+        case .eurtry:
+            return "EUR"
+        default:
+            return displayName
         }
     }
     
@@ -82,9 +98,11 @@ extension AssetCode {
         case .tamEski:
             return .tam
         case .eurtry:
-            return .kulce
+            return .euroSign
         case .usdtry:
-            return .kulce
+            return .dollarSign
+        case .tl:
+            return .turkishliraSign
         }
     }
 }
