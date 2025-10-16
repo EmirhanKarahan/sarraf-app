@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum AssetCode: String, Decodable {
+enum AssetCode: String, Codable {
     case tamYeni = "YENI_TAM"
     case tamEski = "ESKI_TAM"
     case yarimYeni = "YENI_YARIM"

@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import GoogleMobileAds
+import SwiftData
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -31,17 +32,23 @@ struct sarrafApp: App {
                 HomeScreen()
                     .tag(0)
                     .tabItem {
-                        Label("Fiyatlar", systemImage: "house")
+                        Label("Piyasa", systemImage: "tablecells")
                     }
                 CalculatorScreen()
                     .tag(1)
                     .tabItem {
                         Label("Hesaplayıcı", systemImage: "x.squareroot")
                     }
+                FavoritesScreen()
+                    .tag(2)
+                    .tabItem {
+                        Label("Favoriler", systemImage: "heart")
+                    }
             }
             .environment(model)
             .environmentObject(themeManager)
             .preferredColorScheme(themeManager.colorScheme)
+            .modelContainer(for: FavoriteAsset.self)
         }
     }
 }

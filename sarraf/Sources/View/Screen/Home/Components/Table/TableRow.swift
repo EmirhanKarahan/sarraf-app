@@ -72,6 +72,8 @@ struct TableRow: View {
         }
         .frame(minHeight: 44)
         .padding(.vertical, 2)
+        .padding(.horizontal)
+        .contentShape(Rectangle())
         .onAppear {
             viewModel.update(with: asset.buy, newSell: asset.sell)
         }

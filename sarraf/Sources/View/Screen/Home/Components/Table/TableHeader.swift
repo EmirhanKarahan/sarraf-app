@@ -10,7 +10,7 @@ import SwiftUI
 struct TableHeader: View {
     var body: some View {
         HStack(spacing: 0) {
-            Text("Ürün")
+            Text("Emtia")
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text("Alış")
                 .frame(width: 85, alignment: .trailing)
