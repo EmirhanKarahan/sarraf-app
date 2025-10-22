@@ -31,7 +31,7 @@ struct AssetSelectionView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
-                        Text(code.displayName)
+                        Text(code.standaloneName)
                     }
                 }
             }
@@ -53,7 +53,7 @@ struct AssetSelectionView: View {
                     .foregroundColor(.secondary)
                 
                 HStack {
-                    Text(selectedAsset.displayName)
+                    Text(selectedAsset.standaloneName)
                         .font(.subheadline.weight(.medium))
                         .foregroundColor(.primary)
                     

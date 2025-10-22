@@ -22,12 +22,7 @@ struct APIMeta: Decodable {
 final class Model {
     
     private var pollingTask: Task<Void, Never>?
-    
-    init() {
-        // Initialize with placeholder data
-        listAssetPrices = placeholderListAssets
-        headerAssetPrices = placeholderHeaderAssets
-    }
+    private var didFetchedOnce = false
     
     private let assetHeaderFields: [AssetCode] = [.usdtry, .eurtry, .gramAltin, .gramGumus]
     private let assetListFields: [AssetCode] = [.ons, .altin, .gramAltin, .gramGumus, .ayar22, .ceyrekYeni, .ceyrekEski, .yarimYeni, .yarimEski, .tamYeni, .tamEski]
@@ -62,24 +57,28 @@ final class Model {
         }
     }
     
+    init() {
+        // Initialize with placeholder data
+        listAssetPrices = placeholderListAssets
+        headerAssetPrices = placeholderHeaderAssets
+    }
+    
     func getAssetPrice(asset: AssetCode) -> AssetPrice? {
         let assetPrices: [AssetPrice] = headerAssetPrices + listAssetPrices
         return assetPrices.first(where: { $0.code == asset })
     }
     
     func startFetchingPrices() {
+        if didFetchedOnce { return }
         Task {
             await fetchPrices()
             startPolling()
+            didFetchedOnce = true
         }
-    }
-    
-    func stopFetchingPrices() {
-        pollingTask?.cancel()
-        pollingTask = nil
     }
      
     private func startPolling() {
+        if pollingTask != nil { return }
         pollingTask = Task {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(5))

@@ -14,10 +14,13 @@ enum CurrencyCode: String {
 
 struct CurrencyFormatter {
     
-    static func formatPrice(price: Double, currencyCode: CurrencyCode, maximumFractionDigits: Int) -> String {
+    static func formatPrice(price: Double, currencyCode: CurrencyCode, maximumFractionDigits: Int, hideCurrenySymbol: Bool = false) -> String {
         let currencyFormatter = NumberFormatter()
         currencyFormatter.numberStyle = .currency
         currencyFormatter.currencyCode = currencyCode.rawValue
+        if hideCurrenySymbol {
+            currencyFormatter.currencySymbol = ""
+        }
         currencyFormatter.minimumFractionDigits = 0
         currencyFormatter.maximumFractionDigits = maximumFractionDigits
         return currencyFormatter.string(from: price as NSNumber)!

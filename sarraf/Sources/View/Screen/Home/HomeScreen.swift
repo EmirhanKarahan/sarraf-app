@@ -11,9 +11,6 @@ import FirebaseRemoteConfig
 import SwiftData
 
 struct HomeScreen: View {
-    @Query(sort: \FavoriteAsset.listOrder) var favoriteAssets: [FavoriteAsset] = []
-    @Environment(\.modelContext) var modelContext
-    
     @Environment(Model.self) var model: Model
     @State private var showingCalculator = false
     @RemoteConfigProperty(key: Constants.RemoteConfig.isHomeBannerVisible, fallback: false) private var isHomeBannerVisible
@@ -28,32 +25,26 @@ struct HomeScreen: View {
                             .padding(.horizontal)
                         TableHeader()
                             .padding(.horizontal)
-                        ScrollView(showsIndicators: false) {
-                            VStack(alignment: .leading, spacing: 0) {
-                                ForEach(model.listAssetPrices) { asset in
-                                    TableRow(asset: asset)
-                                        .contextMenu {
-                                            let favoriteAsset = favoriteAssets.first(where: { $0.assetCode == asset.code })
-                                            let isFavorite = favoriteAsset != nil
-                                            
-                                            Button(isFavorite ? "Favorilerden çıkart" : "Favorilere ekle",
-                                                   systemImage: isFavorite ? "heart.fill" : "heart",
-                                                   action: {
-                                                if let favoriteAsset {
-                                                    modelContext.delete(favoriteAsset)
-                                                } else {
-                                                    modelContext.insert(FavoriteAsset(asset: asset.code,
-                                                                                      assetSellPriceWhenAddedToFavorites: asset.sell,
-                                                                                      order: favoriteAssets.count))
-                                                }
-                                            })
-                                        }
-                                }
-                                
-                                Spacer()
-                                    .frame(height: 80)
+                        List {
+                            ForEach(model.listAssetPrices) { asset in
+                                TableRow(asset: asset)
+                                    .listRowInsets(EdgeInsets())
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden, edges: .all)
+                                    .contextMenu {
+                                        ContextMenuForAsset(asset: asset)
+                                    }
                             }
+                            Spacer()
+                                .listRowInsets(EdgeInsets())
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden, edges: .all)
+                                .frame(height: 60)
+                                .background(Color(.systemGroupedBackground))
                         }
+                        .listStyle(.plain)
+                        .scrollContentBackground(.hidden)
+                        .background(Color.clear)
                     }
                     
                     Button(action: {
@@ -83,6 +74,7 @@ struct HomeScreen: View {
             .minimumScaleFactor(0.5)
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Kapalı Çarşı")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 NavigationLink(destination: SettingsScreen(), label: {
                     Image(systemName: "gear")
@@ -95,9 +87,6 @@ struct HomeScreen: View {
             }
             .task {
                 model.startFetchingPrices()
-            }
-            .onDisappear {
-                model.stopFetchingPrices()
             }
         }
     }

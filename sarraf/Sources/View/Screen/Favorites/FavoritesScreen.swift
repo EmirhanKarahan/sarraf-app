@@ -9,16 +9,31 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesScreen: View {
-    @Query(sort: \FavoriteAsset.listOrder) var favoriteAssets: [FavoriteAsset] = []
+    @Query(sort: \FavoriteAsset.order) var favoriteAssets: [FavoriteAsset]
     @Environment(\.modelContext) var modelContext
+    @Environment(Model.self) var model: Model
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(favoriteAssets) { favoriteAsset in
-                    Text(favoriteAsset.assetCode.displayName)
+            VStack(alignment: .leading, spacing: 0) {
+                TableHeader()
+                    .padding(.horizontal)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden, edges: .all)
+                
+                List {
+                    ForEach(favoriteAssets) { favoriteAsset in
+                        if let assetPrice = model.getAssetPrice(asset: favoriteAsset.assetCode) {
+                            FavoriteListItem(favoriteAsset: favoriteAsset, assetPrice: assetPrice)
+                        }
+                    }
+                    .onDelete(perform: deleteItems)
+                    .onMove(perform: moveItems)
                 }
-                .onDelete(perform: deleteFavorites)
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
             }
             .overlay {
                 if favoriteAssets.isEmpty {
@@ -38,11 +53,21 @@ struct FavoritesScreen: View {
 
 extension FavoritesScreen {
     
-    private func deleteFavorites(_ indexSet: IndexSet) {
-        for index in indexSet {
-            let favorite = favoriteAssets[index]
-            modelContext.delete(favorite)
+    private func deleteItems(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(favoriteAssets[index])
         }
+        try? modelContext.save()
+    }
+    
+    private func moveItems(from source: IndexSet, to destination: Int) {
+        var revisedItems = favoriteAssets
+        revisedItems.move(fromOffsets: source, toOffset: destination)
+        
+        for (index, item) in revisedItems.enumerated() {
+            item.order = index
+        }
+        try? modelContext.save()
     }
     
 }

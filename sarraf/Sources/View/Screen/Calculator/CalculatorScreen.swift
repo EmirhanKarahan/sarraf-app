@@ -36,12 +36,6 @@ struct CalculatorScreen: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
-            .task {
-                model.startFetchingPrices()
-            }
-            .onDisappear {
-                model.stopFetchingPrices()
-            }
         }
     }
     
@@ -133,14 +127,14 @@ struct CalculatorScreen: View {
                     HStack(alignment: .firstTextBaseline) {
                         resultAmountText
                         if isCurrencyOutput {
-                            Text(toAsset.displayName)
+                            Text(toAsset.standaloneName)
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
                     }
                     
                     if !isCurrencyOutput {
-                        Text(toAsset.displayName)
+                        Text(toAsset.standaloneName)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -182,7 +176,9 @@ struct CalculatorScreen: View {
     
     // MARK: - Result Amount Text
     private var resultAmountText: some View {
-        Text("\(String(format: "%.2f", convertedAmount))\(isCurrencyOutput ? "" : " adet")")
+        let resultAmount: String =  isCurrencyOutput ? .formattedPrice(price: convertedAmount, hideCurrencySymbol: true) : (String(format: "%.2f", convertedAmount) + " adet")
+        
+        return Text(verbatim: resultAmount)
             .font(.title.weight(.bold))
             .foregroundColor(.primary)
     }

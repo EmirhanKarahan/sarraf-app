@@ -18,6 +18,7 @@ enum AssetCode: String, Codable {
 }
 
 extension AssetCode: CaseIterable {}
+extension AssetCode: Equatable {}
 
 extension AssetCode {
     var currencyCode: CurrencyCode {
