@@ -8,17 +8,21 @@
 import SwiftUI
 import SwiftData
 import TipKit
+import FirebaseRemoteConfig
+import GoogleMobileAds
 
 struct FavoritesScreen: View {
     @Query(sort: \FavoriteAsset.order) var favoriteAssets: [FavoriteAsset]
     @Environment(\.modelContext) var modelContext
     @Environment(Model.self) var model: Model
+    @RemoteConfigProperty(key: Constants.RemoteConfig.isFavoritesBannerVisible, fallback: false) private var isFavoritesBannerVisible
+    private let remoteConfig = RemoteConfig.remoteConfig()
     static let favoritesScreenVisitedEvent = Tips.Event(id: "favoritesScreenVisitedEvent")
     private let editFavoriteTip = EditFavoriteTip()
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0) {
                 TableHeader()
                     .padding(.horizontal)
                 
@@ -35,13 +39,29 @@ struct FavoritesScreen: View {
                     }
                     .onDelete(perform: deleteItems)
                     .onMove(perform: moveItems)
+                    
+                    Spacer()
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden, edges: .all)
+                        .frame(height: 60)
+                        .background(Color(.systemGroupedBackground))
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
+                
+                if isFavoritesBannerVisible {
+                    let adSize = portraitAnchoredAdaptiveBanner(width: UIScreen.main.bounds.width)
+                    BannerViewContainer(adSize)
+                        .frame(width: adSize.size.width, height: adSize.size.height)
+                }
             }
             .onAppear {
                 setValuesForTips()
+                remoteConfig.addOnConfigUpdateListener { update, error in
+                    remoteConfig.activate()
+                }
             }
             .overlay {
                 if favoriteAssets.isEmpty {

@@ -78,7 +78,7 @@ struct HomeScreen: View {
                 }
                 
                 if isHomeBannerVisible {
-                    let adSize = currentOrientationAnchoredAdaptiveBanner(width: 375)
+                    let adSize = portraitAnchoredAdaptiveBanner(width: UIScreen.main.bounds.width)
                     BannerViewContainer(adSize)
                         .frame(width: adSize.size.width, height: adSize.size.height)
                 }

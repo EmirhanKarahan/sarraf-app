@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
+import FirebaseRemoteConfig
 
 // MARK: - Main Calculator Screen
 struct CalculatorScreen: View {
+    @RemoteConfigProperty(key: Constants.RemoteConfig.isCalculatorBannerVisible, fallback: false) private var isCalculatorBannerVisible
+    private let remoteConfig = RemoteConfig.remoteConfig()
     @Environment(Model.self) var model: Model
     @State private var amountText: String = "1"
     @State private var fromAsset: AssetCode = .gramAltin
@@ -20,20 +24,35 @@ struct CalculatorScreen: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack {
-                    amountInputSection
-                    sourceAndTargetFields
-                    resultSection
+            VStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack {
+                        amountInputSection
+                        sourceAndTargetFields
+                        resultSection
+                    }
+                    .padding()
                 }
-                .padding()
+                
                 Spacer()
+                
+                if isCalculatorBannerVisible {
+                    let adSize = portraitAnchoredAdaptiveBanner(width: UIScreen.main.bounds.width)
+                    BannerViewContainer(adSize)
+                        .frame(width: adSize.size.width, height: adSize.size.height)
+                }
             }
-            .navigationTitle("Hesaplayıcı")
-            .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                remoteConfig.addOnConfigUpdateListener { update, error in
+                    remoteConfig.activate()
+                }
+            }
             .onTapGesture {
                 isInputActive = false
             }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            .navigationTitle("Hesaplayıcı")
+            .navigationBarTitleDisplayMode(.large)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemGroupedBackground))
         }

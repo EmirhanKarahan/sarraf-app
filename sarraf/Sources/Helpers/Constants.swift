@@ -14,7 +14,7 @@ struct Constants {
     
     // MARK: - Contact Information
     static let feedbackEmail = "mail@emirhankarahan.com"
-
+    
     // MARK: - URLs
     static let privacyPolicyURL = "https://www.emirhankarahan.com/apps/sarraf/privacy-policy"
     static let termsOfServiceURL = "https://www.emirhankarahan.com/apps/sarraf/terms-of-use"
@@ -22,6 +22,8 @@ struct Constants {
 
 extension Constants {
     enum RemoteConfig {
-       static let isHomeBannerVisible = "IS_HOME_BANNER_VISIBLE"
+        static let isHomeBannerVisible = "IS_HOME_BANNER_VISIBLE"
+        static let isFavoritesBannerVisible = "IS_FAVORITES_BANNER_VISIBLE"
+        static let isCalculatorBannerVisible = "IS_CALCULATOR_BANNER_VISIBLE"
     }
 }
