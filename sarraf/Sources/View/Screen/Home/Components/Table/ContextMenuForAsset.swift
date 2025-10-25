@@ -7,11 +7,13 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct ContextMenuForAsset: View {
     @Query var favoriteAssets: [FavoriteAsset] = []
     @Environment(\.modelContext) var modelContext
     let asset: AssetPrice
+    private let addToFavoriteTip = AddToFavoriteTip()
     
     var body: some View {
         let favoriteAsset = favoriteAssets.first(where: { $0.assetCode == asset.code })
@@ -20,6 +22,7 @@ struct ContextMenuForAsset: View {
         Text(asset.code.displayName)
         Button(isFavorite ? "Favorilerden çıkart" : "Favorilere ekle",
                systemImage: isFavorite ? "heart.fill" : "heart") {
+            addToFavoriteTip.invalidate(reason: .actionPerformed)
             if let favoriteAsset {
                 modelContext.delete(favoriteAsset)
             } else {

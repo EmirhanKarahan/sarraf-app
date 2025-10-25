@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseCore
 import GoogleMobileAds
 import SwiftData
+import TipKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -44,6 +45,11 @@ struct sarrafApp: App {
                     .tabItem {
                         Label("Favoriler", systemImage: "heart")
                     }
+            }
+            .task {
+                try? Tips.configure([
+                    .datastoreLocation(.applicationDefault)
+                ])
             }
             .environment(model)
             .environmentObject(themeManager)

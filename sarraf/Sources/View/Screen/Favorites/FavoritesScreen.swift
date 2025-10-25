@@ -7,22 +7,27 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct FavoritesScreen: View {
     @Query(sort: \FavoriteAsset.order) var favoriteAssets: [FavoriteAsset]
     @Environment(\.modelContext) var modelContext
     @Environment(Model.self) var model: Model
+    static let favoritesScreenVisitedEvent = Tips.Event(id: "favoritesScreenVisitedEvent")
+    private let editFavoriteTip = EditFavoriteTip()
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
                 TableHeader()
                     .padding(.horizontal)
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden, edges: .all)
                 
                 List {
+                    TipView(editFavoriteTip)
+                        .tipBackground(Color(.secondarySystemGroupedBackground))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden, edges: .all)
+                    
                     ForEach(favoriteAssets) { favoriteAsset in
                         if let assetPrice = model.getAssetPrice(asset: favoriteAsset.assetCode) {
                             FavoriteListItem(favoriteAsset: favoriteAsset, assetPrice: assetPrice)
@@ -34,6 +39,9 @@ struct FavoritesScreen: View {
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
                 .background(Color.clear)
+            }
+            .onAppear {
+                setValuesForTips()
             }
             .overlay {
                 if favoriteAssets.isEmpty {
@@ -53,7 +61,15 @@ struct FavoritesScreen: View {
 
 extension FavoritesScreen {
     
+    private func setValuesForTips() {
+        if !favoriteAssets.isEmpty {
+            Self.favoritesScreenVisitedEvent.sendDonation()
+            EditFavoriteTip.favoriteCount = favoriteAssets.count
+        }
+    }
+    
     private func deleteItems(at offsets: IndexSet) {
+        editFavoriteTip.invalidate(reason: .actionPerformed)
         for index in offsets {
             modelContext.delete(favoriteAssets[index])
         }
@@ -61,6 +77,7 @@ extension FavoritesScreen {
     }
     
     private func moveItems(from source: IndexSet, to destination: Int) {
+        editFavoriteTip.invalidate(reason: .actionPerformed)
         var revisedItems = favoriteAssets
         revisedItems.move(fromOffsets: source, toOffset: destination)
         

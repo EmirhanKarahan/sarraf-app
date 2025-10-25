@@ -158,6 +158,7 @@ struct CalculatorScreen: View {
                     let fromAsset = model.getAssetPrice(asset: fromAsset) ?? .init(code: .tl, buy: 1, sell: 1, low: 1, high: 1, close: 1)
                     let fromPrice = fromAssetCalculationType == .buy ? fromAsset.buy : fromAsset.sell
                     Text(verbatim: .formattedPrice(price: fromPrice, currencyCode: fromAsset.code.currencyCode))
+                        .animatedNumber(value: fromPrice)
                 }
                 HStack {
                     Text("\(toAsset.standaloneName) \(toAssetCalculationType.rawValue) fiyatı")
@@ -166,6 +167,7 @@ struct CalculatorScreen: View {
                     let toAsset = model.getAssetPrice(asset: toAsset) ?? .init(code: .tl, buy: 1, sell: 1, low: 1, high: 1, close: 1)
                     let toPrice = toAssetCalculationType == .buy ? toAsset.buy : toAsset.sell
                     Text(verbatim: .formattedPrice(price: toPrice, currencyCode: toAsset.code.currencyCode))
+                        .animatedNumber(value: toPrice)
                 }
             }
             .font(.caption)
@@ -181,6 +183,7 @@ struct CalculatorScreen: View {
         return Text(verbatim: resultAmount)
             .font(.title.weight(.bold))
             .foregroundColor(.primary)
+            .animatedNumber(value: convertedAmount)
     }
     
     // MARK: - Computed Properties
