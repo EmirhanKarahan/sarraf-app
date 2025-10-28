@@ -9,7 +9,7 @@ import SwiftUI
 import TipKit
 
 struct EditFavoriteTip: Tip {
-    @Parameter static var favoriteCount: Int = 0
+    @Parameter static var hasEnoughFavoriteToSwipeAndDelete: Bool = false
     var title: Text { Text("Favorileri Silme veya Sıralama") }
     var message: Text? { Text("Favorilerinizi silmek veya sıralamak için sola sürükleyin veya basılı tutun") }
     var image: Image? { Image(systemName: "info.circle") }
@@ -19,6 +19,6 @@ struct EditFavoriteTip: Tip {
             event.donations.count > 2
         }
         
-        #Rule(Self.$favoriteCount) { $0 > 2 }
+        #Rule(Self.$hasEnoughFavoriteToSwipeAndDelete) { $0 == true }
     }
 }

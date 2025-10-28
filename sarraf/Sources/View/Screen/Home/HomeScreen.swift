@@ -69,9 +69,6 @@ struct HomeScreen: View {
                         CalculatorView()
                             .environment(model)
                             .presentationCompactAdaptation(.popover)
-                            .onAppear {
-                                easyCalculatorTip.invalidate(reason: .actionPerformed)
-                            }
                     }
                     .buttonStyle(CalculatorButtonStyle())
                     .padding([.bottom, .trailing])
@@ -98,9 +95,6 @@ struct HomeScreen: View {
                 remoteConfig.addOnConfigUpdateListener { update, error in
                     remoteConfig.activate()
                 }
-            }
-            .onDisappear {
-                easyCalculatorTip.invalidate(reason: .actionPerformed)
             }
             .task {
                 model.startFetchingPrices()

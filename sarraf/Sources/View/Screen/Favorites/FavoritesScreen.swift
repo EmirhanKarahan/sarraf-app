@@ -84,7 +84,7 @@ extension FavoritesScreen {
     private func setValuesForTips() {
         if !favoriteAssets.isEmpty {
             Self.favoritesScreenVisitedEvent.sendDonation()
-            EditFavoriteTip.favoriteCount = favoriteAssets.count
+            EditFavoriteTip.hasEnoughFavoriteToSwipeAndDelete = favoriteAssets.count > 2
         }
     }
     

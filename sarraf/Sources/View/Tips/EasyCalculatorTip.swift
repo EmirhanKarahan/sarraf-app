@@ -11,9 +11,7 @@ import TipKit
 struct EasyCalculatorTip: Tip {
     var title: Text { Text("Hızlı Hesaplama Aracı") }
     var message: Text? { Text("Alış/Satış ücretlerini hızlıca hesaplayın") }
-    var rules: [Rule] {
-        #Rule(HomeScreen.homeScreenVisitedEvent) { event in
-            event.donations.count < 2
-        }
-    }
+    var options: [Option] {
+         Tips.MaxDisplayCount(1)
+     }
 }
