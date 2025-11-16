@@ -68,10 +68,13 @@ struct AssetSelectionView: View {
             
             Spacer()
             
-            Image(selectedAsset.displayImage)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 24, height: 24)
+            Group {
+                Image(selectedAsset.displayImage)
+                    .resizable()
+                    .scaledToFit()
+            }
+            .frame(width: 24, height: 24)
+            .clipped()
             
             Image(systemName: "chevron.down")
                 .foregroundColor(.secondary)

@@ -12,9 +12,7 @@ struct AddToFavoriteTip: Tip {
     var title: Text { Text("Favoriye ekleme") }
     var message: Text? { Text("Bir emtiayı favorilerinize eklemek için ürünlere basılı tutun") }
     var image: Image? { Image(systemName: "heart") }
-    var rules: [Rule] {
-        #Rule(HomeScreen.homeScreenVisitedEvent) { event in
-            event.donations.count > 3
-        }
-    }
+    var options: [Option] {
+         Tips.MaxDisplayCount(1)
+     }
 }

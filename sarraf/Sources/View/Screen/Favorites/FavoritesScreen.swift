@@ -17,7 +17,6 @@ struct FavoritesScreen: View {
     @Environment(Model.self) var model: Model
     @RemoteConfigProperty(key: Constants.RemoteConfig.isFavoritesBannerVisible, fallback: false) private var isFavoritesBannerVisible
     private let remoteConfig = RemoteConfig.remoteConfig()
-    static let favoritesScreenVisitedEvent = Tips.Event(id: "favoritesScreenVisitedEvent")
     private let editFavoriteTip = EditFavoriteTip()
     
     var body: some View {
@@ -83,7 +82,6 @@ extension FavoritesScreen {
     
     private func setValuesForTips() {
         if !favoriteAssets.isEmpty {
-            Self.favoritesScreenVisitedEvent.sendDonation()
             EditFavoriteTip.hasEnoughFavoriteToSwipeAndDelete = favoriteAssets.count > 2
         }
     }

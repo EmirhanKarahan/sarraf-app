@@ -18,7 +18,6 @@ struct HomeScreen: View {
     private let remoteConfig = RemoteConfig.remoteConfig()
     private let addToFavoriteTip = AddToFavoriteTip()
     private let easyCalculatorTip = EasyCalculatorTip()
-    static let homeScreenVisitedEvent = Tips.Event(id: "homeScreenVisitedEvent")
     
     var body: some View {
         NavigationStack {
@@ -91,7 +90,6 @@ struct HomeScreen: View {
                 })
             }
             .onAppear {
-                Self.homeScreenVisitedEvent.sendDonation()
                 remoteConfig.addOnConfigUpdateListener { update, error in
                     remoteConfig.activate()
                 }

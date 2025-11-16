@@ -15,10 +15,6 @@ struct EditFavoriteTip: Tip {
     var image: Image? { Image(systemName: "info.circle") }
     
     var rules: [Rule] {
-        #Rule(FavoritesScreen.favoritesScreenVisitedEvent) { event in
-            event.donations.count > 2
-        }
-        
         #Rule(Self.$hasEnoughFavoriteToSwipeAndDelete) { $0 == true }
     }
 }
