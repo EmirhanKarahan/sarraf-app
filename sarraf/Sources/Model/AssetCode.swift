@@ -7,6 +7,8 @@ enum AssetCode: String, Codable {
     case yarimEski = "ESKI_YARIM"
     case ceyrekYeni = "YENI_CEYREK"
     case ceyrekEski = "ESKI_CEYREK"
+    case yeniAta = "YENI_ATA"
+    case eskiAta = "ESKI_ATA"
     case ons = "ONS"
     case ayar22 = "22_AYAR"
     case altin = "HAS_ALTIN"
@@ -60,6 +62,10 @@ extension AssetCode {
             return "USD/TRY"
         case .tl:
             return "TRY"
+        case .yeniAta:
+            return "Yeni Ata"
+        case .eskiAta:
+            return "Eski Ata"
         }
     }
     
@@ -78,25 +84,15 @@ extension AssetCode {
         switch self {
         case .gramAltin:
             return .gram
-        case .ons:
-            return .kulce
-        case .ayar22:
-            return .kulce
-        case .altin:
+        case .ons, .ayar22, .altin:
             return .kulce
         case .gramGumus:
             return .gramGumus
-        case .ceyrekYeni:
+        case .ceyrekYeni, .ceyrekEski:
             return .ceyrek
-        case .ceyrekEski:
-            return .ceyrek
-        case .yarimYeni:
+        case .yarimYeni, .yarimEski:
             return .yarim
-        case .yarimEski:
-            return .yarim
-        case .tamYeni:
-            return .tam
-        case .tamEski:
+        case .tamYeni, .tamEski:
             return .tam
         case .eurtry:
             return .euroSign
@@ -104,6 +100,8 @@ extension AssetCode {
             return .dollarSign
         case .tl:
             return .turkishliraSign
+        case .yeniAta, .eskiAta:
+            return .tam
         }
     }
 }

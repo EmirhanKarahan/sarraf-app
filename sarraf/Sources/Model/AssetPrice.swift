@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AssetPrice: Decodable {
+struct AssetPrice: Codable {
     let code: AssetCode
     let buy: Double
     let sell: Double
