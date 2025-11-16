@@ -17,4 +17,19 @@ struct AppNumberFormatter {
         return currencyFormatter.string(from: number as NSNumber)!
     }
     
+    static func parseAmount(_ text: String) -> Double {
+        let formatter = NumberFormatter()
+        formatter.locale = Locale.current
+        formatter.numberStyle = .decimal
+        
+        if let number = formatter.number(from: text) {
+            return number.doubleValue
+        }
+        
+        let cleanedText = text
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: ",", with: ".")
+        return Double(cleanedText) ?? 0
+    }
+    
 }

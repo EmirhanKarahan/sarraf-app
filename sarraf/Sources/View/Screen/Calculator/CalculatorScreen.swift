@@ -212,7 +212,7 @@ struct CalculatorScreen: View {
         
         let fromAsset = model.getAssetPrice(asset: fromAsset) ?? .init(code: .tl, buy: 1, sell: 1, low: 1, high: 1, close: 1)
         
-        let amountValue = Double(amountText) ?? 0
+        let amountValue = AppNumberFormatter.parseAmount(amountText)
         let fromPrice = fromAssetCalculationType == .buy ? fromAsset.buy : fromAsset.sell
         let fromPriceValue = fromAsset.code == .ons ? (fromPrice * usdSellPriceInTry) : fromPrice
         

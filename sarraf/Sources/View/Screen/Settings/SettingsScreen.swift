@@ -130,13 +130,11 @@ struct SettingsScreen: View {
             
             Section {
                 VStack(spacing: 10) {
-                    if let appIcon = UIImage(named: "AppIcon") {
-                        Image(uiImage: appIcon)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 60, height: 60)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
+                    Image(.appIcon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 60, height: 60)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     
                     Text(Bundle.main.displayName)
                         .font(.title2)
