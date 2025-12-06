@@ -40,11 +40,11 @@ struct BannerViewContainer: UIViewRepresentable {
         
         // MARK: - GADBannerViewDelegate methods
         func bannerViewDidReceiveAd(_ bannerView: BannerView) {
-            Logger.success("Banner reklamı başarıyla yüklendi")
+            Logger.log("Banner reklamı başarıyla yüklendi")
         }
         
         func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
-            Logger.error("Banner reklamı yüklenemedi", error: error)
+            Logger.error("Banner reklamı yüklenemedi: \(error.localizedDescription)")
         }
     }
 }

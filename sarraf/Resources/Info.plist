@@ -4,6 +4,8 @@
 <dict>
 	<key>API_URL</key>
 	<string>$(API_URL)</string>
+	<key>BUGFENDER_KEY</key>
+	<string>$(BUGFENDER_KEY)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1826133531585471~7457371192</string>
 	<key>GOOGLE_BANNER_UNIT_ID</key>

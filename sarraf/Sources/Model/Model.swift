@@ -74,67 +74,61 @@ final class Model {
     
     func startFetchingPrices() {
         if didFetchedOnce { return }
+        didFetchedOnce = true
         Task {
             await fetchPrices()
             startPolling()
-            didFetchedOnce = true
-        }
-    }
-     
-    private func startPolling() {
-        if pollingTask != nil { return }
-        pollingTask = Task {
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(5))
-                if !Task.isCancelled {
-                    await fetchPrices()
-                }
-            }
         }
     }
     
+    private func startPolling() {
+        guard pollingTask == nil else { return }
+        
+        pollingTask = Task {
+            do {
+                while true {
+                    try await Task.sleep(for: .seconds(10))
+                    await fetchPrices()
+                }
+            } catch {
+                Logger.log("Polling durduruldu. Error desc: \(error)")
+            }
+        }
+    }
+
+    func stopPolling() {
+        pollingTask?.cancel()
+        pollingTask = nil
+    }
+    
     func fetchPrices() async {
-        let urlString = "http://\(Constants.API_URL)/api/prices"
+        let urlString = "\(Constants.API_URL)/api/prices"
         guard let url = URL(string: urlString) else {
             Logger.error("API URL geçersiz: \(urlString)")
             return
         }
         
-        Logger.logAPIRequest(url: urlString, method: "GET")
+        Logger.log("İstek atılıyor: \(urlString)")
         
         do {
             let (data, response) = try await URLSession.shared.data(from: url)
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
-                Logger.logAPIResponse(
-                    url: urlString,
-                    statusCode: statusCode,
-                    data: nil,
-                    error: nil
-                )
-                Logger.error("HTTP hatası: \(statusCode)")
+            guard let httpResponse = response as? HTTPURLResponse else {
+                Logger.error("HTTP response alınamadı")
                 return
             }
             
-            Logger.logAPIResponse(
-                url: urlString,
-                statusCode: httpResponse.statusCode,
-                headers: httpResponse.allHeaderFields,
-                data: data
-            )
+            Logger.log("Yanıt geldi - Status: \(httpResponse.statusCode), Boyut: \(data.count) byte")
+            
+            guard httpResponse.statusCode == 200 else {
+                Logger.error("HTTP hatası: \(httpResponse.statusCode)")
+                return
+            }
             
             await handleIncomingData(data)
             
         } catch {
-            Logger.logAPIResponse(
-                url: urlString,
-                statusCode: nil,
-                data: nil,
-                error: error
-            )
-            Logger.error("API hatası", error: error)
+            Logger.error("API hatası: \(error.localizedDescription)")
         }
     }
     
@@ -157,8 +151,10 @@ final class Model {
                 let secondIndex = assetHeaderFields.firstIndex(of: second.code) ?? Int.max
                 return firstIndex < secondIndex
             }
+            
+            Logger.log("Veri başarıyla işlendi - \(apiResponse.data.count) asset alındı")
         } catch {
-            Logger.error("Veri ayrıştırılamadı", error: error)
+            Logger.error("Veri ayrıştırılamadı: \(error.localizedDescription)")
         }
     }
 }
