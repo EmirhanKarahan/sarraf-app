@@ -8,12 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		1E02A56A2E8C4F8D00EF9A64 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 1E02A5692E8C4F8D00EF9A64 /* GoogleMobileAds */; };
+		1E0BD9FE2EE0D27E00C303DC /* BugfenderLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 1E0BD9FD2EE0D27E00C303DC /* BugfenderLibrary */; };
+		1E0BDA002EE0D77400C303DC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0BD9FF2EE0D77400C303DC /* SystemConfiguration.framework */; };
+		1E0BDA022EE0D77A00C303DC /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0BDA012EE0D77A00C303DC /* Security.framework */; };
+		1E0BDA042EE0D78000C303DC /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0BDA032EE0D78000C303DC /* CoreServices.framework */; };
+		1E0BDA062EE0D78600C303DC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0BDA052EE0D78600C303DC /* CoreGraphics.framework */; };
+		1E0BDA082EE0D79E00C303DC /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E0BDA072EE0D79100C303DC /* libc++.tbd */; };
 		1E30556D2E8F225100231FF4 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 1E30556C2E8F225100231FF4 /* FirebaseRemoteConfig */; };
 		1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B962E8A682200B27B58 /* FirebaseAnalytics */; };
 		1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 1E622B982E8A682200B27B58 /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E0BD9FF2EE0D77400C303DC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1E0BDA012EE0D77A00C303DC /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		1E0BDA032EE0D78000C303DC /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		1E0BDA052EE0D78600C303DC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1E0BDA072EE0D79100C303DC /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		1ED8658E2E2D0CCA00E2E1C8 /* sarraf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sarraf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,10 +54,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E0BD9FE2EE0D27E00C303DC /* BugfenderLibrary in Frameworks */,
 				1E02A56A2E8C4F8D00EF9A64 /* GoogleMobileAds in Frameworks */,
 				1E622B972E8A682200B27B58 /* FirebaseAnalytics in Frameworks */,
+				1E0BDA062EE0D78600C303DC /* CoreGraphics.framework in Frameworks */,
 				1E622B992E8A682200B27B58 /* FirebaseCrashlytics in Frameworks */,
+				1E0BDA022EE0D77A00C303DC /* Security.framework in Frameworks */,
+				1E0BDA082EE0D79E00C303DC /* libc++.tbd in Frameworks */,
+				1E0BDA002EE0D77400C303DC /* SystemConfiguration.framework in Frameworks */,
 				1E30556D2E8F225100231FF4 /* FirebaseRemoteConfig in Frameworks */,
+				1E0BDA042EE0D78000C303DC /* CoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +73,11 @@
 		1E30556B2E8F225100231FF4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E0BDA072EE0D79100C303DC /* libc++.tbd */,
+				1E0BDA052EE0D78600C303DC /* CoreGraphics.framework */,
+				1E0BDA032EE0D78000C303DC /* CoreServices.framework */,
+				1E0BDA012EE0D77A00C303DC /* Security.framework */,
+				1E0BD9FF2EE0D77400C303DC /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -102,6 +124,7 @@
 				1E622B982E8A682200B27B58 /* FirebaseCrashlytics */,
 				1E02A5692E8C4F8D00EF9A64 /* GoogleMobileAds */,
 				1E30556C2E8F225100231FF4 /* FirebaseRemoteConfig */,
+				1E0BD9FD2EE0D27E00C303DC /* BugfenderLibrary */,
 			);
 			productName = sarraf;
 			productReference = 1ED8658E2E2D0CCA00E2E1C8 /* sarraf.app */;
@@ -134,6 +157,7 @@
 			packageReferences = (
 				1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				1E02A5682E8C4F8D00EF9A64 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				1E0BD9FC2EE0D27E00C303DC /* XCRemoteSwiftPackageReference "BugfenderSDK-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1ED8658F2E2D0CCA00E2E1C8 /* Products */;
@@ -344,7 +368,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = emirhankarahan.sarraf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -384,7 +408,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.3;
+				MARKETING_VERSION = 1.0.4;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = emirhankarahan.sarraf;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -429,6 +453,14 @@
 				minimumVersion = 12.11.0;
 			};
 		};
+		1E0BD9FC2EE0D27E00C303DC /* XCRemoteSwiftPackageReference "BugfenderSDK-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bugfender/BugfenderSDK-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
 		1E622B952E8A682200B27B58 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -444,6 +476,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1E02A5682E8C4F8D00EF9A64 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		1E0BD9FD2EE0D27E00C303DC /* BugfenderLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1E0BD9FC2EE0D27E00C303DC /* XCRemoteSwiftPackageReference "BugfenderSDK-iOS" */;
+			productName = BugfenderLibrary;
 		};
 		1E30556C2E8F225100231FF4 /* FirebaseRemoteConfig */ = {
 			isa = XCSwiftPackageProductDependency;
