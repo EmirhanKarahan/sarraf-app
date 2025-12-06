@@ -1,5 +1,5 @@
 {
-  "originHash" : "8094642034110c59e95498055dfb90d27c6aa13b608fc8af90b4f1aeb597a16e",
+  "originHash" : "b471ba55ab3715ff660849efbdf66f9992a7ee7ad8441681ae865b81e03b2bcc",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
         "version" : "11.2.0"
+      }
+    },
+    {
+      "identity" : "bugfendersdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bugfender/BugfenderSDK-iOS",
+      "state" : {
+        "revision" : "4a2b2ba68a14cd8854c03e47fe605bbcdac38f0a",
+        "version" : "2.1.0"
       }
     },
     {

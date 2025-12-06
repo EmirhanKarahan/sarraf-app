@@ -10,12 +10,14 @@ import FirebaseCore
 import GoogleMobileAds
 import SwiftData
 import TipKit
+@_exported import BugfenderSDK
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         MobileAds.shared.start()
+        Bugfender.activateLogger(Constants.BUGFENDER_KEY)
         return true
     }
 }
