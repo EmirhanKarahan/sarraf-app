@@ -10,17 +10,14 @@ import Combine
 
 // MARK: - API Response Models
 struct APIResponse: Codable {
-    let meta: APIMeta?
     let data: [AssetPrice]
-}
-
-struct APIMeta: Codable {
     let cached: Bool?
     let cacheAge: Int?
     let lastUpdate: String?
-    let stale: Bool?
     let error: String?
+    let message: String?
 }
+
 
 @MainActor @Observable
 final class Model {
@@ -87,7 +84,7 @@ final class Model {
         pollingTask = Task {
             do {
                 while true {
-                    try await Task.sleep(for: .seconds(10))
+                    try await Task.sleep(for: .seconds(600))
                     await fetchPrices()
                 }
             } catch {
