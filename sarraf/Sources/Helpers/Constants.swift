@@ -26,5 +26,9 @@ extension Constants {
         static let isHomeBannerVisible = "IS_HOME_BANNER_VISIBLE"
         static let isFavoritesBannerVisible = "IS_FAVORITES_BANNER_VISIBLE"
         static let isCalculatorBannerVisible = "IS_CALCULATOR_BANNER_VISIBLE"
+        static let minimumRequiredVersion = "MINIMUM_REQUIRED_VERSION"
     }
+    
+    // MARK: - App Store
+    static let appStoreURL = "https://apps.apple.com/tr/app/sarraf-alt%C4%B1n-d%C3%B6viz-takibi/id6753230243"
 }

@@ -25,10 +25,19 @@ extension AssetHeader {
             ForEach(model.headerAssetPrices) { assetPrice in
                 VStack {
                     Text(assetPrice.code.displayName.localizedUppercase).font(.system(size: 12))
-                    Text(assetPrice.isPlaceholder ? "-" : .formattedPrice(price: assetPrice.sell))
-                        .font(.system(size: 18)
-                        .weight(.semibold))
-                        .animatedNumber(value: assetPrice.sell)
+                    if assetPrice.isPlaceholder {
+                        Text(verbatim: "00.000")
+                            .font(.system(size: 18)
+                            .weight(.semibold))
+                            .redacted(reason: .placeholder)
+                            .modifier(ShimmerModifier())
+                    } else {
+                        Text(verbatim: .formattedPrice(price: assetPrice.sell))
+                            .font(.system(size: 18)
+                            .weight(.semibold))
+                            .animatedNumber(value: assetPrice.sell)
+                    }
+                   
                 }
                 if assetPrice.code != .gramGumus {
                     Spacer()

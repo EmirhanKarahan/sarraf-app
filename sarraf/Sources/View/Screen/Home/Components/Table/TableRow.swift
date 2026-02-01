@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TableRow: View {
     let asset: AssetPrice
-    
+
     @StateObject private var viewModel = TableRowViewModel()
-    
+
     var body: some View {
         HStack(spacing: 0) {
             HStack(spacing: 8) {
@@ -19,56 +19,83 @@ struct TableRow: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 28, height: 28)
-                
+
                 Text(asset.code.displayName)
                     .font(.system(size: 16))
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             HStack(spacing: 0) {
                 Spacer()
-                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.buy,
-                                                                 currencyCode: asset.code.currencyCode,
-                                                                 maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
-                .animatedNumber(value: asset.buy)
-                .font(.system(size: 16).weight(.semibold))
-                .padding(4)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(viewModel.buyHighlightColor ?? Color.clear)
-                        .animation(.easeOut(duration: 0.7), value: viewModel.buyHighlightColor)
-                )
-            }
-            .frame(width: 85, alignment: .trailing)
-            
-            HStack(spacing: 0) {
-                Spacer()
-                Text(asset.isPlaceholder ? "-" : .formattedPrice(price: asset.sell,
-                                                                 currencyCode: asset.code.currencyCode,
-                                                                 maximumFractionDigits: asset.code == .gramGumus ? 2 : 0))
-                .animatedNumber(value: asset.sell)
-                .font(.system(size: 16).weight(.semibold))
-                .padding(4)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(viewModel.sellHighlightColor ?? Color.clear)
-                        .animation(.easeOut(duration: 0.7), value: viewModel.sellHighlightColor)
-                )
-            }
-            .frame(width: 85, alignment: .trailing)
-            
-            HStack(spacing: 2) {
-                if !asset.isPlaceholder {
-                    differenceImage?.foregroundStyle(differenceColor).font(.system(size: 8))
+                if asset.isPlaceholder {
+                    Text(
+                        verbatim: "00.000"
+                    )
+                    .hidden()
+                    .font(.system(size: 16).weight(.semibold))
+                    .padding(4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(.lightGray))
+                    )
+                    .modifier(ShimmerModifier())
+                } else {
+                    Text(
+                        verbatim: .formattedPrice(
+                            price: asset.buy,
+                            currencyCode: asset.code.currencyCode,
+                            maximumFractionDigits: asset.code == .gramGumus ? 2 : 0
+                        )
+                    )
+                    .animatedNumber(value: asset.buy)
+                    .font(.system(size: 16).weight(.semibold))
+                    .padding(4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(viewModel.buyHighlightColor ?? Color.clear)
+                            .animation(.easeOut(duration: 0.7), value: viewModel.buyHighlightColor)
+                    )
+
                 }
-                Text(asset.isPlaceholder ? "-" : asset.differenceString)
-                    .animatedNumber(value: asset.difference)
-                    .font(.system(size: 14))
-                    .foregroundColor(asset.isPlaceholder ? .primary : differenceColor)
             }
-            .frame(width: 70, alignment: .trailing)
+            .frame(width: 85, alignment: .trailing)
+
+            HStack(spacing: 0) {
+                Spacer()
+                if asset.isPlaceholder {
+                    Text(
+                        verbatim: "00.000"
+                    )
+                    .hidden()
+                    .font(.system(size: 16).weight(.semibold))
+                    .padding(4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(.lightGray))
+                    )
+                    .modifier(ShimmerModifier())
+                } else {
+
+                    Text(
+                        verbatim: .formattedPrice(
+                            price: asset.sell,
+                            currencyCode: asset.code.currencyCode,
+                            maximumFractionDigits: asset.code == .gramGumus ? 2 : 0
+                        )
+                    )
+                    .animatedNumber(value: asset.sell)
+                    .font(.system(size: 16).weight(.semibold))
+                    .padding(4)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(viewModel.sellHighlightColor ?? Color.clear)
+                            .animation(.easeOut(duration: 0.7), value: viewModel.sellHighlightColor)
+                    )
+                }
+            }
+            .frame(width: 85, alignment: .trailing)
         }
         .frame(minHeight: 44)
         .padding(.vertical, 2)
@@ -84,7 +111,7 @@ struct TableRow: View {
             viewModel.update(with: asset.buy, newSell: asset.sell)
         }
     }
-    
+
     private var differenceColor: Color {
         let diff = asset.difference
         if diff > 0 {
@@ -95,7 +122,7 @@ struct TableRow: View {
             return .primary
         }
     }
-    
+
     private var differenceImage: Image? {
         let diff = asset.difference
         if diff > 0 {

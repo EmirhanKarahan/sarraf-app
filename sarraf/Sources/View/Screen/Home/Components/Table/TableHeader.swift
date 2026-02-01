@@ -16,8 +16,6 @@ struct TableHeader: View {
                 .frame(width: 85, alignment: .trailing)
             Text("Satış")
                 .frame(width: 85, alignment: .trailing)
-            Text("% 24s")
-                .frame(width: 70, alignment: .trailing)
         }
         .font(.system(size: 16))
         .foregroundColor(.secondary)
